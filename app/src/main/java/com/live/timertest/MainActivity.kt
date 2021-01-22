@@ -7,8 +7,8 @@ import android.widget.TextView
 import java.util.*
 import kotlin.concurrent.schedule
 
-class MainActivity : AppCompatActivity() {
-
+open class MainActivity : AppCompatActivity() {
+    var mDelay: Long = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,9 +27,21 @@ class MainActivity : AppCompatActivity() {
         Timer("SettingUp", false).schedule(delay) {
             var et: Long = System.currentTimeMillis()
 
-            var flag = et - st > delay
+            mDelay = et - st
+            var flag = mDelay > delay
             displayResult(flag)
         }
+    }
+
+    fun runMyTimer(delay: Long) : Long {
+        var st: Long = System.currentTimeMillis()
+        MyTimer("SettingUp", false).schedule(delay) {
+
+        }
+
+        var et1: Long = System.currentTimeMillis()
+
+        return et1 - st
     }
 
     fun displayResult(flag: Boolean) {
