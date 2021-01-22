@@ -8,31 +8,47 @@ import java.util.*
 import kotlin.concurrent.schedule
 
 open class MainActivity : AppCompatActivity() {
+    var mDelay: Long = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initEvent()
     }
 
-    private fun initEvent() {
+    fun initEvent() {
         val btnRun = findViewById<Button>(R.id.btn_run)
         btnRun.setOnClickListener {
-            runTimer(3000, TimeMeasure())
+            runTimer(3000)
         }
     }
 
-    fun runTimer(delay: Long, measure: TimeMeasure) {
+    fun runTimer(delay: Long) {
         var st: Long = System.currentTimeMillis()
         Timer("SettingUp", false).schedule(delay) {
             var et: Long = System.currentTimeMillis()
 
-            measure.delay = et - st
-            var flag = measure.delay > delay
+            mDelay = et - st
+            var flag = mDelay > delay
             displayResult(flag)
         }
     }
 
-    private fun displayResult(flag: Boolean) {
+    fun runMyTimer(delay: Long) : Long {
+        var st: Long = System.currentTimeMillis()
+
+        val handler = object: onListener {
+            override fun onComplete() {
+
+            }
+        }
+        MyTimer("SettingUp", false).schedule(delay, handler)
+
+        var et1: Long = System.currentTimeMillis()
+
+        return et1 - st
+    }
+
+    fun displayResult(flag: Boolean) {
         runOnUiThread {
             var txtResult = findViewById<TextView>(R.id.txt_result)
 
