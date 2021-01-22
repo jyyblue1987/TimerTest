@@ -18,7 +18,7 @@ open class MainActivity : AppCompatActivity() {
     fun initEvent() {
         val btnRun = findViewById<Button>(R.id.btn_run)
         btnRun.setOnClickListener {
-            runTimer(3000)
+            runMyTimer(3000)
         }
     }
 
@@ -38,7 +38,10 @@ open class MainActivity : AppCompatActivity() {
 
         val handler = object: onListener {
             override fun onComplete() {
+                var et: Long = System.currentTimeMillis()
 
+                mDelay = et - st
+                var flag = mDelay > delay
             }
         }
         MyTimer("SettingUp", false).schedule(delay, handler)
